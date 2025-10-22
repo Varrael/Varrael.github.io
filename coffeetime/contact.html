@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <title>CoffeeTime — Контакты</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="header">
+    <h1>☕ CoffeeTime</h1>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="about.html">О нас</a>
+      <a href="contact.html" class="active">Контакты</a>
+    </nav>
+  </header>
+
+
+    <section class="contact">
+        <h2>Свяжитесь с нами</h2>
+        <p>Мы всегда рады услышать вас! Напишите нам, и мы ответим в ближайшее время.</p>
+
+        <!-- Фон с паром -->
+        <canvas id="steamCanvas"></canvas>
+
+        <form id="contactForm">
+            <label>Имя:</label>
+            <input type="text" id="name" required>
+
+            <label>Email:</label>
+            <input type="email" id="email" required>
+
+            <label>Сообщение:</label>
+            <textarea rows="4" id="message" required></textarea>
+
+            <button type="submit" class="btn">Отправить</button>
+        </form>
+    </section>
+
+
+  <footer>
+    <p>© 2025 CoffeeTime. Все права защищены.</p>
+  </footer>
+
+  <script src="js/contact.js"></script>
+</body>
+</html>

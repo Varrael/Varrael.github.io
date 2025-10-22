@@ -1,0 +1,219 @@
+body {
+  margin: 0;
+  font-family: "Poppins", Arial, sans-serif;
+  background-color: #2c1b12;
+  color: #fff;
+  overflow-x: hidden;
+}
+
+/* HEADER */
+.header {
+  background-color: #3e2723;
+  text-align: center;
+  padding: 15px;
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+}
+
+.header nav a {
+  color: #f5deb3;
+  margin: 0 15px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.header nav a:hover,
+.header nav a.active {
+  color: #ffcc80;
+}
+
+/* HERO SECTION */
+.hero {
+  text-align: center;
+  padding: 120px 20px;
+  background: linear-gradient(180deg, rgba(0,0,0,0.3), transparent);
+}
+
+.hero h2 {
+  font-size: 2.5rem;
+  margin-bottom: 10px;
+  animation: fadeIn 2s ease;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  margin-bottom: 30px;
+  animation: fadeIn 3s ease;
+}
+
+.btn {
+  background-color: #795548;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 30px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: #a1887f;
+  transform: scale(1.05);
+}
+
+/* ABOUT PAGE */
+.about {
+  text-align: center;
+  padding: 80px 20px 50px;
+  background: linear-gradient(180deg, #3e2723 0%, #2c1b12 100%);
+}
+
+.about h2 {
+  font-size: 2.2rem;
+  margin-bottom: 10px;
+  color: #ffcc80;
+}
+
+.about .intro {
+  max-width: 800px;
+  margin: 0 auto 40px;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #f5f5f5;
+}
+
+.cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 25px;
+}
+
+.card {
+  background-color: #4e342e;
+  padding: 25px;
+  border-radius: 15px;
+  width: 280px;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+
+.card h3 {
+  color: #ffcc80;
+  margin-bottom: 10px;
+}
+
+.card.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Mission section */
+.mission {
+  background-color: #3e2723;
+  text-align: center;
+  padding: 60px 20px;
+}
+
+.mission h2 {
+  color: #ffcc80;
+  font-size: 2rem;
+  margin-bottom: 15px;
+}
+
+.mission p {
+  max-width: 800px;
+  margin: 0 auto;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #f0e5d8;
+}
+
+/* CONTACT */
+.contact {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+form {
+  display: inline-block;
+  text-align: left;
+  background-color: #4e342e;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.4);
+}
+
+input, textarea {
+  display: block;
+  width: 100%;
+  margin: 10px 0;
+  padding: 10px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: background 0.3s ease;
+}
+
+button.btn {
+  display: block;
+  margin: 10px auto 0;
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  background-color: #3e2723;
+  padding: 15px;
+  color: #c7a17a;
+  margin-top: 50px;
+}
+
+/* CANVAS BACKGROUND */
+canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* ANIMATIONS */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ADAPTIVE */
+@media (max-width: 600px) {
+  .cards {
+    flex-direction: column;
+    align-items: center;
+  }
+  .card {
+    width: 90%;
+  }
+  .hero h2 {
+    font-size: 1.8rem;
+  }
+}
+
+#steamCanvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+}
+
+/* Пульс формы */
+form.pulse {
+  animation: pulse 0.4s ease;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+  50% { transform: scale(1.03); box-shadow: 0 0 20px rgba(255,255,255,0.5); }
+  100% { transform: scale(1); box-shadow: 0 0 10px rgba(255,255,255,0.3); }
+}
