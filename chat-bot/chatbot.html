@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Чат-Бот</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Arial', sans-serif;
+      background: #1f1f1f;
+      color: #fff;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      background: #1f1f1f;
+      width: 100%;
+      max-width: 700px;
+      height: 95vh;
+      border: 1px solid #aaa;
+      border-radius: 25px;
+      overflow: hidden;
+    }
+    .messages {
+      flex-grow: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column-reverse;
+      padding: 20px;
+      gap: 20px;
+    }
+    .message {
+      display: flex;
+      align-items: flex-end;
+      max-width: 90%;
+    }
+    .message.user {
+      align-self: flex-end;
+      flex-direction: row-reverse;
+    }
+    .message.bot {
+      align-self: flex-start;
+    }
+    .message img {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      margin: 0 10px;
+    }
+    .message div {
+      padding: 12px 16px;
+      border-radius: 20px;
+      background: #f1f1f1;
+      color: #000;
+    }
+    .message.user div {
+      background: #ffc645;
+      color: #000;
+    }
+    .input-area {
+      display: flex;
+      align-items: center;
+      background: #fff;
+      padding: 10px 20px;
+      border-top: 1px solid #ccc;
+      border-radius: 0 0 25px 25px;
+    }
+    .input-area input {
+      flex: 1;
+      border: none;
+      font-size: 16px;
+      padding: 12px 16px;
+      border-radius: 25px;
+      background: #f2f2f2;
+      outline: none;
+    }
+    .input-area button {
+      background: #ccc;
+      border: none;
+      border-radius: 50%;
+      padding: 12px;
+      margin-left: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: not-allowed;
+      transition: background 0.3s, transform 0.2s, opacity 0.2s;
+      opacity: 0.6;
+    }
+    .input-area button.active {
+      background: #ffc645;
+      cursor: pointer;
+      opacity: 1;
+    }
+    .input-area button.active:hover {
+      background: #ffb500;
+      transform: scale(1.1);
+    }
+    .input-area button img {
+      width: 24px;
+      height: 24px;
+    }
+    .typing-indicator {
+      margin-left: 50px;
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+    .typing-indicator span {
+      width: 8px;
+      height: 8px;
+      background: #999;
+      border-radius: 50%;
+      animation: blink 1s infinite;
+    }
+    .typing-indicator span:nth-child(2) {
+      animation-delay: 0.2s;
+    }
+    .typing-indicator span:nth-child(3) {
+      animation-delay: 0.4s;
+    }
+    @keyframes blink {
+      0%, 80%, 100% { opacity: 0; }
+      40% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+      <input type="text" id="userInput" placeholder="...">
+      <button id="sendBtn" disabled><img src="paper-plane.svg" /></button>
+    </div>
+  </div>
+
+  <script>
+    const messages = document.getElementById("messages");
+    const input = document.getElementById("userInput");
+    const sendBtn = document.getElementById("sendBtn");
+
+    let userName = "";
+    let numbers = [];
+
+    function addMessage(text, isUser = false) {
+      const msg = document.createElement("div");
+      msg.className = `message ${isUser ? "user" : "bot"}`;
+
+      const avatar = document.createElement("img");
+      avatar.src = isUser ? "user_avatar.png" : "bot_avatar.png";
+
+      const bubble = document.createElement("div");
+      bubble.textContent = text;
+
+      msg.appendChild(avatar);
+      msg.appendChild(bubble);
+      messages.prepend(msg);
+    }
+
+    function showTypingIndicator() {
+      const indicator = document.createElement("div");
+      indicator.className = "typing-indicator bot";
+      indicator.innerHTML = '<span></span><span></span><span></span>';
+      indicator.id = "typing";
+      messages.prepend(indicator);
+    }
+
+    function hideTypingIndicator() {
+      const typing = document.getElementById("typing");
+      if (typing) typing.remove();
+    }
+
+    function handleCommand(inputText) {
+      const cmd = inputText.trim();
+      if (cmd === "/start") {
+        return "Привет, меня зовут Чат-бот, а как зовут тебя?";
+      } else if (cmd.startsWith("/name:")) {
+        userName = cmd.split(":")[1].trim();
+        return `Привет ${userName}, приятно познакомится. Я умею считать, введи числа которые надо посчитать`;
+      } else if (cmd.startsWith("/number:")) {
+        const nums = cmd.split(":")[1].split(",").map(n => parseFloat(n.trim()));
+        if (nums.length === 2 && nums.every(n => !isNaN(n))) {
+          numbers = nums;
+          return `Выберите операцию: +, -, *, /`;
+        } else {
+          return "Пожалуйста, введите два числа через запятую";
+        }
+      } else if (["+", "-", "*", "/"].includes(cmd) && numbers.length === 2) {
+        const [a, b] = numbers;
+        let result;
+        switch (cmd) {
+          case "+": result = a + b; break;
+          case "-": result = a - b; break;
+          case "*": result = a * b; break;
+          case "/": result = b !== 0 ? (a / b).toFixed(2) : "Ошибка: деление на ноль"; break;
+        }
+        numbers = [];
+        return `Результат: ${result}`;
+      } else if (cmd === "/stop") {
+        return "Всего доброго, если хочешь поговорить пиши /start";
+      } else {
+        return "Я не понимаю, введите другую команду!";
+      }
+    }
+
+    input.addEventListener("input", () => {
+      const isActive = input.value.trim() !== "";
+      sendBtn.classList.toggle("active", isActive);
+      sendBtn.disabled = !isActive;
+    });
+
+    sendBtn.addEventListener("click", () => {
+      const text = input.value.trim();
+      if (!text) return;
+      addMessage(text, true);
+      input.value = "";
+      sendBtn.classList.remove("active");
+      sendBtn.disabled = true;
+      showTypingIndicator();
+      setTimeout(() => {
+        hideTypingIndicator();
+        addMessage(handleCommand(text));
+      }, 800);
+    });
+  </script>
+</body>
+</html>
